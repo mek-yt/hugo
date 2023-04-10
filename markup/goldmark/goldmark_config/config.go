@@ -31,6 +31,7 @@ var Default = Config{
 		Linkify:         true,
 		LinkifyProtocol: "https",
 		TaskList:        true,
+		Latex:           false,
 	},
 	Renderer: Renderer{
 		Unsafe: false,
@@ -64,6 +65,7 @@ type Extensions struct {
 	Linkify         bool
 	LinkifyProtocol string
 	TaskList        bool
+	Latex           bool
 }
 
 type Renderer struct {

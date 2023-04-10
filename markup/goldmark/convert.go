@@ -22,6 +22,7 @@ import (
 	"github.com/gohugoio/hugo/markup/goldmark/codeblocks"
 	"github.com/gohugoio/hugo/markup/goldmark/images"
 	"github.com/gohugoio/hugo/markup/goldmark/internal/extensions/attributes"
+	"github.com/gohugoio/hugo/markup/goldmark/internal/extensions/latex"
 	"github.com/gohugoio/hugo/markup/goldmark/internal/render"
 
 	"github.com/gohugoio/hugo/markup/converter"
@@ -130,6 +131,10 @@ func newMarkdown(pcfg converter.ProviderConfig) goldmark.Markdown {
 
 	if cfg.Extensions.Footnote {
 		extensions = append(extensions, extension.Footnote)
+	}
+
+	if cfg.Extensions.Latex {
+		extensions = append(extensions, &latex.LatexAsPlainTextExtension{})
 	}
 
 	if cfg.Parser.AutoHeadingID {
