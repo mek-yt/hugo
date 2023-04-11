@@ -18,7 +18,7 @@ func (s *LatexParser) Trigger() []byte {
 }
 
 func (s *LatexParser) Parse(parent ast.Node, block text.Reader, pc parser.Context) ast.Node {
-	// Finds any LaTeX blocks that start with $ or $$ and returns an AST text node, ensuring
+	// Finds any LaTeX inlines/blocks and returns an AST text node, ensuring
 	// that other parsers don't pick up the LaTeX syntax.
 	// Source: https://github.com/FurqanSoftware/goldmark-katex/blob/0bf781ec55b4dcac337505863ecccf093e4ee967/parser.go
 
