@@ -1,6 +1,7 @@
 module github.com/gohugoio/hugo
 
 require (
+	git.sr.ht/~mekyt/latex2mathml v0.0.0-20231214134936-808832af73fc
 	github.com/BurntSushi/locker v0.0.0-20171006230638-a6e239ea1c69
 	github.com/alecthomas/chroma/v2 v2.13.0
 	github.com/armon/go-radix v1.0.1-0.20221118154546-54df44f2176c
@@ -136,6 +137,7 @@ require (
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-runewidth v0.0.9 // indirect
 	github.com/mohae/deepcopy v0.0.0-20170929034955-c48cc78d4826 // indirect
+	github.com/neruyzo/etree v0.0.0-20230816193247-70b7b06b18ad // indirect
 	github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646 // indirect
 	github.com/perimeterx/marshmallow v1.1.5 // indirect
 	github.com/pkg/browser v0.0.0-20210911075715-681adbf594b8 // indirect
@@ -158,4 +160,4 @@ require (
 	software.sslmate.com/src/go-pkcs12 v0.2.0 // indirect
 )
 
-go 1.20
+go 1.21

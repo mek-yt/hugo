@@ -22,6 +22,7 @@ import (
 	"reflect"
 	"sync/atomic"
 
+	"git.sr.ht/~mekyt/latex2mathml"
 	_math "github.com/gohugoio/hugo/common/math"
 	"github.com/spf13/cast"
 )
@@ -186,6 +187,16 @@ func (ns *Namespace) Sqrt(n any) (float64, error) {
 // Sub subtracts multivalued.
 func (ns *Namespace) Sub(inputs ...any) (any, error) {
 	return ns.doArithmetic(inputs, '-')
+}
+
+// Convert Latex to MathMl.
+func (ns *Namespace) Latex2MathMl(s string) (string, error) {
+	return latex2mathml.Convert(
+		s,
+		"http://www.w3.org/1998/Math/MathML",
+		"inline",
+		0,
+	), nil
 }
 
 func (ns *Namespace) applyOpToScalarsOrSlices(opName string, op func(x, y float64) float64, inputs ...any) (result float64, err error) {
