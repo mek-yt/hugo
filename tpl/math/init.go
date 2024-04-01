@@ -150,6 +150,13 @@ func init() {
 			},
 		)
 
+		ns.AddMethodMapping(ctx.D2,
+			[]string{"d2"},
+			[][2]string{
+				{"{{ 'x -> y' | d2 }}", ""},
+			},
+		)
+
 		return ns
 	}
 
