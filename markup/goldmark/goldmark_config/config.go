@@ -73,6 +73,7 @@ var Default = Config{
 				Block:  [][]string{},
 			},
 		},
+		Latex:           false,
 	},
 	Renderer: Renderer{
 		Unsafe: false,
@@ -139,6 +140,7 @@ type Extensions struct {
 	LinkifyProtocol string
 	TaskList        bool
 	CJK             CJK
+	Latex           bool
 }
 
 // Typographer holds typographer configuration.

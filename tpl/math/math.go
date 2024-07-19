@@ -15,15 +15,29 @@
 package math
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"math"
 	"math/rand"
+	"os"
 	"reflect"
 	"sync/atomic"
 
+	"cdr.dev/slog"
+	"cdr.dev/slog/sloggers/sloghuman"
+	"git.sr.ht/~mekyt/latex2mathml"
 	_math "github.com/gohugoio/hugo/common/math"
 	"github.com/spf13/cast"
+	"oss.terrastruct.com/d2/d2graph"
+	"oss.terrastruct.com/d2/d2layouts/d2dagrelayout"
+	"oss.terrastruct.com/d2/d2lib"
+	"oss.terrastruct.com/d2/d2renderers/d2svg"
+	"oss.terrastruct.com/d2/d2target"
+	"oss.terrastruct.com/d2/d2themes/d2themescatalog"
+	"oss.terrastruct.com/d2/lib/log"
+	"oss.terrastruct.com/d2/lib/textmeasure"
+	"oss.terrastruct.com/util-go/go2"
 )
 
 var (
@@ -186,6 +200,76 @@ func (ns *Namespace) Sqrt(n any) (float64, error) {
 // Sub subtracts multivalued.
 func (ns *Namespace) Sub(inputs ...any) (any, error) {
 	return ns.doArithmetic(inputs, '-')
+}
+
+// Convert Latex to MathMl.
+func (ns *Namespace) Latex2MathMl(s string) (string, error) {
+	return latex2mathml.Convert(
+		s,
+		"http://www.w3.org/1998/Math/MathML",
+		"inline",
+		0,
+	), nil
+}
+
+func (ns *Namespace) D2(s string) (string, error) {
+	ruler, _ := textmeasure.NewRuler()
+	layoutResolver := func(engine string) (d2graph.LayoutGraph, error) {
+		return d2dagrelayout.DefaultLayout, nil
+	}
+
+	N1 := "#eff0eb"
+	N2 := "#f3f99d"
+	N3 := "#676d91"
+	N4 := "#9aedfe"
+	N5 := "#282a36"
+	N6 := "#676d91"
+	N7 := "#282a36"
+	B1 := "#f1f1f0"
+	B2 := "#9aedfe"
+	B3 := "#676d91"
+	B4 := "#282a36"
+	B5 := "#676d91"
+	B6 := "#282a36"
+	AA2 := "#57c7ff"
+	AA4 := "#676d91"
+	AA5 := "#282a36"
+	AB4 := "#676d91"
+	AB5 := "#282a36"
+
+	renderOpts := &d2svg.RenderOpts{
+		Pad:     go2.Pointer(int64(5)),
+		ThemeID: &d2themescatalog.DarkMauve.ID,
+		ThemeOverrides: &d2target.ThemeOverrides{
+			N1:  &N1,
+			N2:  &N2,
+			N3:  &N3,
+			N4:  &N4,
+			N5:  &N5,
+			N6:  &N6,
+			N7:  &N7,
+			B1:  &B1,
+			B2:  &B2,
+			B3:  &B3,
+			B4:  &B4,
+			B5:  &B5,
+			B6:  &B6,
+			AA2: &AA2,
+			AA4: &AA4,
+			AA5: &AA5,
+			AB4: &AB4,
+			AB5: &AB5,
+		},
+	}
+	compileOpts := &d2lib.CompileOptions{
+		LayoutResolver: layoutResolver,
+		Ruler:          ruler,
+	}
+	ctx := log.With(context.Background(), slog.Make(sloghuman.Sink(os.Stderr)).Named("default"))
+	diagram, _, _ := d2lib.Compile(ctx, s, compileOpts, renderOpts)
+	out, _ := d2svg.Render(diagram, renderOpts)
+
+	return string(out), nil
 }
 
 func (ns *Namespace) applyOpToScalarsOrSlices(opName string, op func(x, y float64) float64, inputs ...any) (result float64, err error) {

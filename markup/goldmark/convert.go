@@ -26,6 +26,7 @@ import (
 	"github.com/gohugoio/hugo/markup/goldmark/goldmark_config"
 	"github.com/gohugoio/hugo/markup/goldmark/images"
 	"github.com/gohugoio/hugo/markup/goldmark/internal/extensions/attributes"
+	"github.com/gohugoio/hugo/markup/goldmark/internal/extensions/latex"
 	"github.com/gohugoio/hugo/markup/goldmark/internal/render"
 
 	"github.com/yuin/goldmark"
@@ -207,6 +208,10 @@ func newMarkdown(pcfg converter.ProviderConfig) goldmark.Markdown {
 
 	if pcfg.Conf.EnableEmoji() {
 		extensions = append(extensions, emoji.Emoji)
+	}
+
+	if cfg.Extensions.Latex {
+		extensions = append(extensions, &latex.LatexAsPlainTextExtension{})
 	}
 
 	if cfg.Parser.AutoHeadingID {
