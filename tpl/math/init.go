@@ -213,6 +213,20 @@ func init() {
 			},
 		)
 
+		ns.AddMethodMapping(ctx.Latex2MathMl,
+			[]string{"latex2mathml"},
+			[][2]string{
+				{"{{ 'x = x + 1' | latex2mathml }}", `<math xmlns="http://www.w3.org/1998/Math/MathML" display="inline"><mrow><mi>x</mi><mo>&#x0003D;</mo><mi>x</mi><mo>&#x0002B;</mo><mn>1</mn></mrow></math>`},
+			},
+		)
+
+		ns.AddMethodMapping(ctx.D2,
+			[]string{"d2"},
+			[][2]string{
+				{"{{ 'x -> y' | d2 }}", ""},
+			},
+		)
+
 		return ns
 	}
 
